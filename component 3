@@ -1,0 +1,65 @@
+# =====================================================================
+# LOCOGUIDE - COMPONENT 3: PRODUCTION SCHEMA SPECIFICATION INTEGRATION
+# =====================================================================
+import time
+
+class ProductionMediaMatcher:
+    def __init__(self):
+        # Database Storage Mapping aligning strictly with Page 7 Table [assets] fields
+        self.SUPABASE_STORAGE_URL = "https://supabase.co"
+
+        # Exact Production Field Data Layout (Page 7 Schema Specifications)
+        self.assets_table_production = {
+            "LOCO-BRK-2026-001": {
+                "serial_number": "LOCO-BRK-2026-001",           # VARCHAR(50) - PRIMARY KEY
+                "model_type": "Pneumatic Air-Brake (CCB-2.0)",   # VARCHAR(50) - NOT NULL
+                "dispatch_location": "New Delhi (NDLS) Shed",    # VARCHAR(100) - NOT NULL
+                "manufacture_date": "2026-09-27",                # DATE - DEFAULT NOW()
+                "next_service_countdown": 180                    # INT - DEFAULT 180
+            }
+        }
+
+        # Diagnostic Media Directory Table [diagnostic_media] (Page 6 ERD)
+        self.diagnostic_media_table = {
+            "Pneumatic Air-Brake (CCB-2.0)": {
+                "media_id": 301,
+                "fault_category": "Pressure Drop / Pneumatic Leaks",
+                "blueprint_url": f"{self.SUPABASE_STORAGE_URL}/blueprints/ccb2_valve_schematic.png",
+                "video_clip_url": f"{self.SUPABASE_STORAGE_URL}/videos/dv_bleed_guide_10s.mp4"
+            }
+        }
+
+    def execute_production_multimodal_match(self, scanned_serial):
+        print("=" * 70)
+        print("📁 [COMPONENT 3] Executing Process 3.0: Multimodal Media Matcher...")
+        print("=" * 70)
+        time.sleep(0.5)
+
+        # 1. Access the Asset Data Core Row (Process 1.0 Boundary)
+        if scanned_serial in self.assets_table_production:
+            asset_row = self.assets_table_production[scanned_serial]
+            target_model = asset_row["model_type"]
+
+            print(f"✅ Asset Guard Match: {asset_row['serial_number']} | Type: {target_model}")
+            print(f"⏳ Service Cycle Tracker: {asset_row['next_service_countdown']} Days Remaining")
+            time.sleep(0.5)
+
+            # 2. Match Foreign Key reference to the Diagnostic Media Table (Process 3.0 Lifecycle)
+            media_row = self.diagnostic_media_table.get(target_model)
+            if media_row:
+                print(f"\n🔗 RESOLVED SPECIFIC BUCKET REFERENCES (Media ID: {media_row['media_id']}):")
+                print(f"   • Structural Fault Class: {media_row['fault_category']}")
+                print(f"   • D3: CAD Blueprint Path:  {media_row['blueprint_url']}")
+                print(f"   • D3: 10s Video Clip Path:  {media_row['video_clip_url']}")
+                print("=" * 70 + "\n")
+                return media_row
+            else:
+                print("❌ Media profile mappings missing for this hardware subcategory.")
+                return None
+        else:
+            print("❌ ST-301 Failure: Serial Key not found in Day-One records storage.")
+            return None
+
+# --- RUN PRODUCTION INTEGRATION SUITE ---
+matcher_engine = ProductionMediaMatcher()
+matcher_engine.execute_production_multimodal_match("LOCO-BRK-2026-001")
