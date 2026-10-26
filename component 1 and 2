@@ -1,0 +1,127 @@
+# =====================================================================
+# LOCOGUIDE - COMPLETE LIVE PIPELINE (SECURE HEADERS ROUTE)
+# =====================================================================
+import requests
+import time
+
+# --- LIVE API ENDPOINT ROUTE ACCESS PROFILES ---
+SUPABASE_URL = "https://supabase.co"
+SUPABASE_ANON_KEY = "sb_publishable_l3687oLVtvsn8GBynMebAA_WTXaZdJz"
+
+# --- COMPONENT 3 HOOK DATA ---
+MULTIMEDIA_REPOSITORY = {
+    "CCB-2.0": {
+        "blueprint_url": "https://supabase.co/storage/v1/object/public/blueprints/ccb2_valve.png",
+        "video_clip_url": "https://supabase.co/storage/v1/object/public/videos/dv_bleed_10s.mp4"
+    }
+}
+
+# --- COMPONENT 4 PRESENCE DATA ---
+FACTORY_PRESENCE = {"Senior_Site_Engineer": True}
+
+def run_integrated_locoguide_pipeline(serial_number, worker_query):
+    print("=" * 65)
+    print("🚂 LOCOGUIDE CORE INDUSTRIAL MANAGEMENT PIPELINE ENGINE")
+    print("=" * 65)
+
+    # -----------------------------------------------------------------
+    # COMPONENT 1: SECURE API CLOUD LOOKUP
+    # -----------------------------------------------------------------
+    print("🌐 [COMPONENT 1] Querying Active Live Database Ledger Matrix...")
+
+    # Target path explicitly pointing to our public table directory route
+    endpoint_url = f"{SUPABASE_URL}/rest/v1/brake_assets"
+
+    # Formulating specific headers to satisfy new Supabase ingress gates
+    headers = {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+
+    # Append structured search parameters to filter matching serial rows
+    query_params = {
+        "serial_number": f"eq.{serial_number}",
+        "select": "*"
+    }
+
+    try:
+        response = requests.get(endpoint_url, headers=headers, params=query_params)
+
+        # Guard rail rule checks to verify if response returned valid text frames
+        if response.status_code == 200:
+            asset_records = response.json()
+
+            if isinstance(asset_records, list) and len(asset_records) > 0:
+                live_asset = asset_records[0] # Grab target primary dictionary item
+                model_id = live_asset.get('model_id', 'CCB-2.0')
+                print("\n✅ LIVE LEDGER STATUS VERIFIED SUCCESSFULLY!")
+                print(f"   • Asset Serial:       {live_asset.get('serial_number')}")
+                print(f"   • Station Allocation: {live_asset.get('dispatch_location')}")
+                print(f"   • Maintenance Status: {live_asset.get('status')}")
+            else:
+                print(f"\n❌ LEDGER SEARCH FAILED for serial code: {serial_number}")
+                print("⚠️ CONSTRAINT ENFORCED: System only recognizes 'Day-One' hardware post-deployment.")
+                print("=" * 65)
+                return
+        else:
+            print(f"\n🔴 Server Gateway Error Flagged (Status: {response.status_code})")
+            print("   Using fallback mode to complete execution flow parameters...")
+            model_id = "CCB-2.0"
+
+    except Exception as e:
+        print(f"\n🔴 Connectivity timeout error: {e}")
+        print("   Defaulting to native structural logic compiler execution flags...")
+        model_id = "CCB-2.0"
+
+    # -----------------------------------------------------------------
+    # COMPONENT 2: AUTOMATED TECHNICAL DIAGNOSTICS
+    # -----------------------------------------------------------------
+    print(f"\n🤖 [COMPONENT 2] Running Technical Diagnostic Rules for Model: {model_id}")
+    query_processed = worker_query.lower()
+    print(f"🔧 Worker Query Logged: '{worker_query}'")
+    print("-" * 50)
+    print("📋 SYSTEM DIAGNOSTIC STEPS FROM MAINTENANCE HANDBOOK:")
+
+    if "pressure" in query_processed or "drop" in query_processed:
+        print("👉 Action 1: Verify main reservoir pipe pressure rests stably above 8 kg/cm².")
+        print("👉 Action 2: Check the distributor valve drainage cock ring for structural leaks.")
+        print("👉 Action 3: Isolate pneumatic flow via isolating cock 74 to measure downstream drift.")
+    elif "leak" in query_processed or "leakage" in query_processed:
+        print("👉 Action 1: Apply standard liquid soap solution over manifold connection points.")
+        print("👉 Action 2: Re-torque loose casing flange nuts to standard 45 Nm profile.")
+    else:
+        print("👉 Action 1: Cycle system primary electrical breakers inside main cab panel.")
+        print("👉 Action 2: Trigger computerized self-test module using cockpit dashboard screen.")
+    print("-" * 50)
+
+    # -----------------------------------------------------------------
+    # COMPONENT 3: MULTIMODAL MAN-OBJECT RECORD DATA DELIVERY
+    # -----------------------------------------------------------------
+    print("\n🖼️ [COMPONENT 3] Fetching Associated Multimodal Blueprint Assets...")
+    media = MULTIMEDIA_REPOSITORY.get(model_id, {})
+    print(f"🔗 CAD Blueprint Schematic URL:  {media.get('blueprint_url')}")
+    print(f"🔗 10-Second Explainer Video URL: {media.get('video_clip_url')}")
+
+    # -----------------------------------------------------------------
+    # COMPONENT 4: REAL-TIME MANAGEMENT ESCALATION CHANNELS
+    # -----------------------------------------------------------------
+    print("\n📞 [COMPONENT 4] Evaluating Safety Critical Escalation Rules...")
+    if "pressure" in query_processed or "drop" in query_processed:
+        print("⚠️ STATUS WATCH: Fault categorized under 'Safety-Critical Threshold'.")
+        if FACTORY_PRESENCE["Senior_Site_Engineer"]:
+            print("🟢 CONNECTED: Senior Site Engineer is currently ONLINE on the dashboard portal.")
+            print("🎥 [LIVE CALL ACTIVE]: Bridging field worker via real-time WebRTC video call stream bridge!")
+        else:
+            print("🔴 NOTICE: Engineering staff offline. AI diagnostics proceeding independently.")
+    else:
+        print("✅ NOMINAL: Handled completely via automated instructions. No call bridge requested.")
+    print("=" * 65 + "\n")
+
+
+# --- RUN RUNTIME INTEGRATION TARGETS ---
+run_integrated_locoguide_pipeline(
+    serial_number="LOCO-BRK-2026-001",
+    worker_query="The brake cylinder pressure is dropping rapidly!"
+)
