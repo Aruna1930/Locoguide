@@ -1,0 +1,90 @@
+# =====================================================================
+# LOCOGUIDE VISUAL CORE INTERFACES - PART 2
+# =====================================================================
+# This cell injects client interactions and runs the unified view layout
+html_layout_part2 = """
+<script>
+var assets_table = {
+    "LOCO-BRK-2026-001": {
+        "serial_number": "LOCO-BRK-2026-001",
+        "model_type": "Pneumatic Air-Brake (CCB-2.0)",
+        "dispatch_location": "New Delhi (NDLS) Shed",
+        "manufacture_date": "2026-09-27",
+        "next_service_countdown": 180
+    }
+};
+
+var db_storage_url = "https://supabase.co";
+var diagnostic_media_table = {
+    "Pneumatic Air-Brake (CCB-2.0)": {
+        "media_id": 301,
+        "fault_category": "Pressure Drop / Pneumatic Leaks",
+        "blueprint_url": db_storage_url + "/blueprints/ccb2_valve.png",
+        "video_clip_url": db_storage_url + "/videos/dv_bleed_10s.mp4"
+    }
+};
+
+function runUiScannerVerify() {
+    var code = document.getElementById('serialCodeInput').value.trim();
+    var status = document.getElementById('uiStatusBox');
+    var chat = document.getElementById('uiDialogueFrame');
+    var queryIn = document.getElementById('uiQueryInput');
+    var askBtn = document.getElementById('uiAskBtn');
+
+    if(code in assets_table) {
+        var asset = assets_table[code];
+        status.innerHTML = '<div style="color: #4ade80; font-weight: bold; margin-bottom: 2px;">✅ Live Ledger Record Verified</div>' +
+            '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; font-size: 9.5px; color: #cbd5e1;">' +
+            '<div><b>model_type:</b> ' + asset.model_type + '</div><div><b>dispatch_loc:</b> NDLS Shed</div>' +
+            '<div><b>manufacture:</b> ' + asset.manufacture_date + '</div><div><b>countdown:</b> ' + asset.next_service_countdown + ' Days</div></div>';
+
+        chat.style.fontStyle = 'normal';
+        chat.style.textAlign = 'left';
+        chat.style.display = 'block';
+        chat.innerHTML = '<div style="background-color: #1e293b; padding: 6px; border-radius: 6px; max-width: 90%; margin-bottom: 6px; border: 1px solid #334155;">Hello! <b>Process 3.0 Media Matcher</b> linked. What pneumatic brake issue are you witnessing inside the yard?</div>';
+
+        queryIn.disabled = false;
+        queryIn.style.opacity = "1";
+        queryIn.style.borderColor = "#475569";
+
+        askBtn.disabled = false;
+        askBtn.style.backgroundColor = "#0d9488";
+        askBtn.style.color = "white";
+        askBtn.style.cursor = "pointer";
+        askBtn.onclick = runUiChatQuery;
+    } else {
+        status.innerHTML = '<div style="color: #f43f5e; font-weight: bold;">❌ ST-301 Ledger Mismatch</div><div style="font-size: 9.5px; color: #94a3b8; margin-top: 2px;">Forward-looking tracking rule filter has blocked this legacy tracking identity query block.</div>';
+    }
+}
+
+function runUiChatQuery() {
+    var txtBox = document.getElementById('uiQueryInput');
+    var chat = document.getElementById('uiDialogueFrame');
+    var callWidget = document.getElementById('uiCallLinkBox');
+    var val = txtBox.value.trim();
+    if(!val) return;
+
+    chat.innerHTML += '<div style="background-color: rgba(13, 148, 136, 0.2); border: 1px solid rgba(13, 148, 136, 0.4); padding: 6px; border-radius: 6px; max-width: 90%; margin-left: auto; text-align: right; margin-bottom: 6px;">' + val + '</div>';
+    txtBox.value = '';
+
+    setTimeout(function() {
+        var media = diagnostic_media_table["Pneumatic Air-Brake (CCB-2.0)"];
+        chat.innerHTML += '<div style="background-color: #1e293b; padding: 6px; border-radius: 6px; max-width: 90%; margin-bottom: 6px; border: 1px solid #334155; font-size: 9.5px;">' +
+            '<p style="margin: 0 0 4px 0; color: #4ade80; font-weight: bold;">🤖 Process 2.0 Maintenance Rule steps:</p>' +
+            '• Isolate downstream pressure loops using cockpit isolation cock 74.<br>' +
+            '• Verify bolt torque specifications match standard 45 Nm threshold constraints.<br>' +
+            '<div style="margin-top: 4px; border-top: 1px solid #334155; padding-top: 4px; color: #22d3ee; font-weight: bold;">' +
+            '🖼️ D3 Blueprint: ' + media.blueprint_url + '<br>🎥 D3 Video Clip: ' + media.video_clip_url + '</div></div>';
+        chat.scrollTop = chat.scrollHeight;
+
+        var lowerVal = val.toLowerCase();
+        if(lowerVal.includes('pressure') || lowerVal.includes('drop') || lowerVal.includes('failure')) {
+            callWidget.style.style.display = "block";
+        }
+    }, 500);
+}
+</script>
+"""
+
+# Compile and mount the twin halves cleanly onto the active canvas panel
+display(HTML(html_layout_part1 + html_layout_part2))
