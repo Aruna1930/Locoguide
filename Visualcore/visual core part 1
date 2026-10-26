@@ -1,0 +1,61 @@
+# =====================================================================
+# LOCOGUIDE VISUAL CORE INTERFACES - PART 1
+# =====================================================================
+from IPython.display import display, HTML
+
+html_layout_part1 = """
+<div style="background-color: #020617; padding: 15px; display: flex; justify-content: center; align-items: center; border-radius: 12px;">
+    <!-- Mobile App Frame Shell -->
+    <div style="width: 340px; background-color: #0f172a; border-radius: 24px; border: 1px solid #334155; overflow: hidden; font-family: sans-serif; color: #f1f5f9; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+
+        <!-- App Title Bar Header -->
+        <div style="background: linear-gradient(to right, #0f766e, #115e59); padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h4 style="margin: 0; font-size: 15px; font-weight: 900; color: white;">LocoGuide</h4>
+                <p style="margin: 0; font-size: 9px; color: #ccfbf1; font-weight: 500; text-transform: uppercase;">Brake Diagnostic Suite</p>
+            </div>
+            <span style="background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); font-size: 8px; padding: 2px 6px; border-radius: 9999px; font-weight: 700;">DAY-ONE ACTIVE</span>
+        </div>
+
+        <!-- Scrollable Active UI Panel -->
+        <div style="padding: 12px; display: flex; flex-direction: column; gap: 12px;">
+
+            <!-- STEP 1 ASSET ENTRY LOOKUP PANEL -->
+            <div style="background-color: rgba(30, 41, 59, 0.4); border: 1px solid #1e293b; padding: 10px; border-radius: 12px;">
+                <h5 style="margin: 0 0 6px 0; font-size: 9px; color: #2dd4bf; text-transform: uppercase; letter-spacing: 0.05em;">Step 1: Asset Ledger Sync</h5>
+                <div style="display: flex; gap: 6px;">
+                    <input id="serialCodeInput" type="text" value="LOCO-BRK-2026-001" style="flex: 1; background-color: #020617; border: 1px solid #475569; border-radius: 6px; padding: 4px 8px; font-size: 11px; color: #f8fafc; font-family: monospace; outline: none;" />
+                    <button onclick="runUiScannerVerify()" style="background-color: #0d9488; color: white; border: none; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Verify</button>
+                </div>
+                <div id="uiStatusBox" style="margin-top: 8px; background-color: rgba(2, 6, 23, 0.6); padding: 8px; border-radius: 6px; border: 1px solid #1e293b; font-size: 10px; color: #94a3b8; line-height: 1.4;">
+                    Scan a brake assembly QR code string to pull active shipment data attributes.
+                </div>
+            </div>
+
+            <!-- STEP 2 & 3 CHAT DISPLAY WINDOW -->
+            <div style="background-color: rgba(30, 41, 59, 0.4); border: 1px solid #1e293b; padding: 10px; border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+                <h5 style="margin: 0; font-size: 9px; color: #2dd4bf; text-transform: uppercase; letter-spacing: 0.05em;">Step 2 & 3: Smart Repair Agent</h5>
+                <div id="uiDialogueFrame" style="background-color: #020617; border-radius: 6px; padding: 8px; height: 120px; font-size: 10px; color: #475569; overflow-y: auto; border: 1px solid #0f172a; font-style: italic; text-align: center; display: flex; align-items: center; justify-content: center;">
+                    Unlock production tracking specs to sync diagnostic chat options...
+                </div>
+                <div style="display: flex; gap: 6px;">
+                    <input id="uiQueryInput" type="text" placeholder="Detail fault signs..." disabled style="flex: 1; background-color: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 4px 8px; font-size: 11px; opacity: 0.4;" />
+                    <button id="uiAskBtn" disabled style="background-color: #1e293b; color: #475569; border: none; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: not-allowed;">Ask</button>
+                </div>
+            </div>
+
+            <!-- STEP 4 WEBRTC LINK CONTAINER WIDGET -->
+            <div id="uiCallLinkBox" style="display: none; background-color: rgba(136, 19, 55, 0.2); border: 1px solid rgba(225, 29, 72, 0.4); padding: 10px; border-radius: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <h5 style="margin: 0; font-size: 9px; color: #fb7185; text-transform: uppercase; letter-spacing: 0.05em;">Step 4: Live Plant Escalation</h5>
+                    <span style="font-size: 9px; color: #34d399; font-weight: 500;">● Site Engineer Online</span>
+                </div>
+                <p style="margin: 0 0 8px 0; font-size: 10px; color: #cbd5e1; line-height: 1.4;">Severe pressure collapse drops detected. Local WebRTC signaling path handles peer mesh streaming loops.</p>
+                <button onclick="alert('🎥 Process 4.0: Initiating P2P WebRTC Signaling Handshake Offer... Bridging canvas video port directly to open Manager dashboard row.')" style="width: 100%; background-color: #e11d48; color: white; border: none; padding: 6px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">Connect Real-Time Video Call</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+"""
+print("✅ Part 1 Memory Register Frame Loaded Successfully.")
